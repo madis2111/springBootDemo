@@ -1,4 +1,4 @@
-package ru.netology.springbootdemo;
+package ru.netology.springbootdemo.service;
 
 public class ProductionProfile implements SystemProfile {
     @Override
