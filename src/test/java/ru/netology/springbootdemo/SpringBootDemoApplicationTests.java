@@ -17,7 +17,7 @@ class DemoApplicationTests {
     private final static GenericContainer<?> devContainer = new GenericContainer<>("devapp")
                                    .withExposedPorts(8080);
     private final static GenericContainer<?> prodContainer = new GenericContainer<>("prodapp")
-                                     .withExposedPorts(8080);
+                                     .withExposedPorts(8081);
 
     @BeforeAll
     public static void setUp() {
@@ -26,15 +26,17 @@ class DemoApplicationTests {
     }
 
     @Test
-    void devTest() {                                                        // localhost:8080/profile
-        ResponseEntity<String> forEntity = restTemplate.getForEntity("http://localhost:" + devContainer.getMappedPort(8080) + "/profile", String.class);
+    void devTest() {
+        System.out.println(devContainer.getMappedPort(8080) + "is first port");// localhost:8080/profile
+        ResponseEntity<String> forEntity = restTemplate.getForEntity("http://localhost:" + devContainer.getMappedPort(8081) + "/profile", String.class);
 
         Assertions.assertEquals("Current profile is prod", forEntity.getBody());
     }
 
     @Test           // todo
     void prodTest() {                                                        // localhost:8080/profile
-        ResponseEntity<String> forEntity = restTemplate.getForEntity("http://localhost:" + devContainer.getMappedPort(8080) + "/profile", String.class);
+        System.out.println(prodContainer.getMappedPort(8080) + "is second port");// localhost:8080/profile
+        ResponseEntity<String> forEntity = restTemplate.getForEntity("http://localhost:" + prodContainer.getMappedPort(8080) + "/profile", String.class);
 
         Assertions.assertEquals("Current profile is prod", forEntity.getBody());
     }
